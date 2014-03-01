@@ -1,0 +1,36 @@
+\section{Analysis}
+
+
+We chose sp\_omp because it showed an interesting distribution of MATR results.
+We have plotted several replacement policies against each other to show the difference between these policies.
+Specifically we have plotted replacement algorithms against Belady's Optimal Algorithm to find out what these policies could do better.
+As you can see all cache algorithms have a lot of replacements under 100 K memory accesses from eviction.
+However, there are also three peaks around 250 K, 300 K, and 350 K memory accesses.
+The intuition of how to read a TTR graph is as follows.
+A high $y$ value is generally bad, because it means there were many evictions and recaches,
+ however if Belady also has a high $y$ value, than this is a property of the program, and your caching policy cannot do better,
+ (the program however could possibly be rewritten).
+Many TTR graphs include humps in their distribution, humps that appear significantly later than any equivalent hump in Belady are bad,
+ this means that you are holding onto data for too long.
+Humps that do no appear at all in Belady, means that it would be optimal to hold the data long enough for the next memory access to occur,
+ in this case your caching policy does not hold onto data long enough.
+
+For instance in Figures~\ref{matr:buc:belady:srrip},\ref{matr:buc:belady:rand},\ref{matr:buc:belady:drrip} we see many peaks at less then 100 K memory accesses in SRRIP, RAND, and DRRIP.
+However in general we see much smaller peaks in Belady, indicating that our caching policies are holding onto the wrong data.
+In fact Belady has a relatively large peak just short of 100K indicating that none of the caching policies are correctly evicting those cache blocks,
+ although RAND and DRRIP do a much better job than SRRIP as seen in Figures~\ref{matr:buc:srrip:rand},\ref{matr:buc:srrip:drrip}.
+As seen in Figure~\ref{matr:buc:belady:srrip}, for the three humps mentioned before (at 250, 300, and 350 K memory accesses),
+ SRRIP evicts much too late, and in Figure~\ref{matr:buc:srrip:fifo} we can see that it chooses evicts around the same time as FIFO.
+As seen in Figures~\ref{matr:buc:belady:drrip},\ref{matr:buc:srrip:drrip}, DRRIP appears to split the difference between Belady and SRRIP.
+It has two smaller peaks for each peak in Belady, one around were SRRIP's peak is and one near Belady's.
+Similarly Figure~\ref{matr:buc:drrip:brrip} shows a similar distribution for BRRIP.
+This means that DRRIP and BRRIP are able to correctly predict some of the time that a cache block will not be used again significantly earlier than SRRIP and FIFO are able to make that prediction.
+Finally RAND, spreads out the peak accross the interval from Belady to SRRIP as seen in Figures~\ref{matr:buc:belady:rand},\ref{matr:buc:srrip:rand}.
+This is expected because of the random nature of the policy, sometimes it will evict as early as Belady, and sometimes it will evict as late as or later than FIFO,
+ but most often it will evict some time in between, this reinforces the idea that DRRIP and BRRIP are able to make informed decisions about these cache blocks,
+ as they, in contrast show a trough in the middle.
+
+These graphs indicate, at least for sp\_omp, that replacement policy designer's should look into ways
+ to evict the cache blocks of the three humps as early as Belady does above and beyond what DRRIP and BRRIP already do.
+Furthermore they should also try to keep a lot more of the cache blocks that are accessed within 95K memory accesses,
+ as Belady outperforms the other cache algorithms by quite a bit in that range.

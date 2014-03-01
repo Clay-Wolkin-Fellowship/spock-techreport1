@@ -1,26 +1,30 @@
 \documentclass[pageno]{jpaper}
 
+\usepackage{graphicx}
+\usepackage[section]{placeins}
 \usepackage[normalem]{ulem}
 
 \begin{document}
 
-\title{Guidelines for Submissions to MICRO 2013}
+\title{Qualitative Cache Performance Analysis}
 
+\author{Eric Storm \and Andrew Carter \and Max Korbel \and Paula Ning \and Seth Pugsley \and Josef Spjut}
 \date{}
 \maketitle
 
-\thispagestyle{empty}
+%\thispagestyle{empty}
 
 \begin{abstract}
 \input{00-abstract.tex}
 \end{abstract}
 
-\input{01-intro.tex}
-\input{02-background.tex}
-\input{03-arch.tex}
-\input{04-methodology.tex}
-\input{05-results.tex}
-\input{06-conclusions.tex}
+\input{01-introduction.tex}
+\input{02-motivation.tex}
+\input{03-methodology.tex}
+\input{04-results.tex}
+\input{05-analysis.tex}
+\input{06-relatedwork.tex}
+\input{07-conclusions.tex}
 
 \bstctlcite{bstctl:etal, bstctl:nodash, bstctl:simpurl}
 \bibliographystyle{IEEEtranS}
